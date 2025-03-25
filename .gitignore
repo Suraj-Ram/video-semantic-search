@@ -1,0 +1,6 @@
+data/
+syn_data/
+external/
+helpers/frames
+
+.DS_Store
