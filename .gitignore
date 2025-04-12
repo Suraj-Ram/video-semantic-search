@@ -4,3 +4,10 @@ external/
 helpers/frames
 
 .DS_Store
+fire_msrvtt_dataset.xlsx
+first_15_qs.xlsx
+q_judgements.xlsx
+single_relevant_qs_10.xlsx
+clip-exploration/cifar100_vectors.txt
+twohee/
+milvus/

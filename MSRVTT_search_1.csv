@@ -1,0 +1,6 @@
+video_id,video_path,sentence
+video12,data/MSRVTT/videos/all/video12.mp4,car driving fast
+video6110,data/MSRVTT/videos/all/video6110.mp4,car driving fast
+video9223,data/MSRVTT/videos/all/video9223.mp4,car driving fast
+video2376,data/MSRVTT/videos/all/video2376.mp4,car driving fast
+video938,data/MSRVTT/videos/all/video938.mp4,car driving fast
