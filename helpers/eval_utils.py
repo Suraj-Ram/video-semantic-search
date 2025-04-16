@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 
 def twohee_data_col_to_df(twohee_data_collection):
