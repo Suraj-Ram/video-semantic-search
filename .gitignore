@@ -13,3 +13,4 @@ twohee/
 milvus/
 helpers/__pycache__/*
 test_1k_compress/
+test_1k_images/
