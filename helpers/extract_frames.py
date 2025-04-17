@@ -4,6 +4,65 @@ import sys
 from tqdm import tqdm
 
 
+def extract_n_frames(video_path, output_folder, n=10):
+    """
+    Extract n equally spaced frames from a video file and save them to a directory.
+
+    Args:
+        video_path (str): Path to the input video file
+        output_folder (str): Path to the output directory to save frames
+        n (int): Number of equally spaced frames to extract (default: 10)
+    """
+    # Create the output folder if it doesn't exist
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    # Open the video file
+    video = cv2.VideoCapture(video_path)
+
+    # Get the total number of frames in the video
+    total_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+
+    # Calculate the frame interval to get n equally spaced frames
+    if total_frames <= n:
+        # If video has fewer frames than requested, extract all frames
+        frame_indices = list(range(total_frames))
+    else:
+        # Calculate indices of equally spaced frames
+        frame_indices = [int(i * total_frames / n) for i in range(n)]
+
+    # Get the video filename for naming the frames
+    video_name = os.path.splitext(os.path.basename(video_path))[0]
+
+    # Extract the frames at the calculated indices
+    for i, frame_index in enumerate(frame_indices):
+        # Set the video position to the desired frame
+        video.set(cv2.CAP_PROP_POS_FRAMES, frame_index)
+
+        # Read the frame
+        ret, frame = video.read()
+
+        # Break if frame reading failed
+        if not ret:
+            print(f"Failed to read frame at index {frame_index}")
+            continue
+
+        # Generate the output filename
+        output_filename = f"{video_name}_frame_{i+1:03d}_of_{n:03d}.jpg"
+        output_path = os.path.join(output_folder, output_filename)
+
+        # Save the frame as an image
+        cv2.imwrite(output_path, frame)
+
+    # Release the video capture object
+    video.release()
+
+    # Return the list of saved frame paths
+    frame_paths = [os.path.join(
+        output_folder, f"{video_name}_frame_{i+1:03d}_of_{n:03d}.jpg") for i in range(len(frame_indices))]
+    return frame_paths
+
+
 def extract_frames(video_path, output_folder, frame_interval=1):
     # Create the output folder if it doesn't exist
     if not os.path.exists(output_folder):

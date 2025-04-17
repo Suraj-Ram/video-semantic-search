@@ -9,11 +9,18 @@ def twohee_data_col_to_df(twohee_data_collection):
         res_obj = vars(r)
         res_obj_list.append(res_obj)
     res_df = pd.DataFrame(res_obj_list)
-    # Add ground truth column
-    res_df['ground_truth'] = res_df['rel_video_id'].apply(
-        lambda x: int(x[len('video'):]))
 
-    # TODO add conditional for frame_id here
+    # Add ground truth column
+    if 'rel_video_id' in res_df.columns:
+        res_df['ground_truth'] = res_df['rel_video_id'].apply(
+            lambda x: int(x[len('video'):]))
+    if 'rel_frame_id' in res_df.columns:
+        res_df['ground_truth'] = res_df['rel_frame_id'].apply(
+            lambda x: int(x[len('video'):]))
+    else:
+        raise ValueError(
+            "No rel_video_id or rel_frame_id found in the DataCollection")
+
     return res_df.copy()
 
 
