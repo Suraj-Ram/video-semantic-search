@@ -14,7 +14,7 @@ def twohee_data_col_to_df(twohee_data_collection):
     if 'rel_video_id' in res_df.columns:
         res_df['ground_truth'] = res_df['rel_video_id'].apply(
             lambda x: int(x[len('video'):]))
-    if 'rel_frame_id' in res_df.columns:
+    elif 'rel_frame_id' in res_df.columns:
         res_df['ground_truth'] = res_df['rel_frame_id'].apply(
             lambda x: int(x[len('video'):]))
     else:
