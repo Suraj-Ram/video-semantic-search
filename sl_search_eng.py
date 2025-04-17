@@ -1,28 +1,42 @@
-import streamlit as st
 import datetime
 import json
+import os
 
-# --- Mock Search Function ---
+import streamlit as st
+from towhee import ops, pipe
+from towhee.operator import PyOperator
+from tqdm import tqdm
+
+VIDEO_RET_COLLECTION = "msrvtt_vid_ret_1"
+TOP_K = 10
+VIDEOS_FOLDER = "./test_1k_compress"
 
 
-def milvus_search_function(query):
-    # Simulate returning ranked video paths
-    return ["test_1k_compress/video7020.mp4",
-            "test_1k_compress/video7021.mp4",
-            "test_1k_compress/video7021.mp4",
-            "test_1k_compress/video7021.mp4",
-            "test_1k_compress/video7021.mp4",
-            "test_1k_compress/video7021.mp4",]
+search_pipeline = (
+    pipe.input('sentence')
+    .map('sentence', 'vec', ops.video_text_embedding.clip4clip(model_name='clip_vit_b32', modality='text', device='mps'))
+    .map('vec', 'rows', ops.ann_search.milvus_client(collection_name=VIDEO_RET_COLLECTION, limit=TOP_K))
+    .map('rows', 'videos_path', lambda rows: (os.path.join(VIDEOS_FOLDER, 'video' + str(r[0]) + '.mp4') for r in rows))
+    .output('videos_path')
+)
+
+
+def query_videos(text):
+    search_results = search_pipeline(text).to_list()
+    return search_results[0][0]
 
 
 def get_video_id(video_path):
-    # Extract video ID from the path
     return video_path.split('/')[-1].split('.')[0]
 
 
 def get_video_ids(video_paths):
-    # Extract video IDs from the paths
     return [get_video_id(path) for path in video_paths]
+
+
+def append_log_entry(log_entry):
+    with open("query_click_logs.json", "a") as f:
+        f.write(json.dumps(log_entry) + "\n")
 
 
 def log_video_click(video_path, query, ranking):
@@ -32,8 +46,7 @@ def log_video_click(video_path, query, ranking):
         "clicked_video": get_video_id(video_path),
         "ranking": ranking,
     }
-    with open("query_click_logs.json", "a") as f:
-        f.write(json.dumps(log_entry) + "\n")
+    append_log_entry(log_entry)
     st.toast(f"Logged click: {video_path}", icon="✅")
 
 
@@ -42,8 +55,9 @@ st.title("Semantic Video Search Engine")
 
 # Query input
 query = st.text_input("Enter your search query:")
+
 if query:
-    results = milvus_search_function(query)
+    results = query_videos(query)
     st.subheader("Top Results")
 
     # Display video results

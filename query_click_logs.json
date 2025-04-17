@@ -1,5 +1,7 @@
-{"timestamp": "2025-04-17T01:32:38.066524", "query": "suraj", "clicked_video": "test_1k_compress/video7021.mp4"}
 {"timestamp": "2025-04-17T01:34:07.681176", "query": "ss", "clicked_video": "test_1k_compress/video7020.mp4"}
 {"timestamp": "2025-04-17T01:37:28.652274", "query": "thing", "ranking": ["video7020", "video7021", "video7021", "video7021", "video7021", "video7021"], "clicked_video": "video7021"}
 {"timestamp": "2025-04-17T01:38:19.586055+00:00", "query": "blue sky", "ranking": ["video7020", "video7021", "video7021", "video7021", "video7021", "video7021"], "clicked_video": "video7021"}
 {"timestamp": "2025-04-17T01:38:48.993476+00:00", "query": "another query", "clicked_video": "video7021", "ranking": ["video7020", "video7021", "video7021", "video7021", "video7021", "video7021"]}
+{"timestamp": "2025-04-17T01:49:38.749303+00:00", "query": "car", "clicked_video": "video8819", "ranking": ["video9358", "video8819", "video9259", "video7752", "video8651", "video7765", "video9691", "video7356", "video9975", "video7354"]}
+{"timestamp": "2025-04-17T01:51:00.965638+00:00", "query": "water bottle", "clicked_video": "video9206", "ranking": ["video9206", "video7726", "video7578", "video8067", "video9699", "video8343", "video9324", "video7558", "video7370", "video7372"]}
+{"timestamp": "2025-04-17T02:08:10.443861+00:00", "query": "water bottle", "clicked_video": "video7726", "ranking": ["video9206", "video7726", "video7578", "video8067", "video9699", "video8343", "video9324", "video7558", "video7370", "video7372"]}
