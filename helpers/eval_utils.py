@@ -148,13 +148,21 @@ def calculate_ndcg(df, k=10):
     return sum(ndcg_scores) / len(ndcg_scores) if ndcg_scores else 0
 
 
-def get_all_eval_scores(df):
-    """Return a dataframe with all evaluation scores: Recall@1, Recall@5, Recall@10, MAP, NDCG@1, NDCG@5, NDCG@10"""
+def get_all_eval_scores(df, as_pct=False):
+    """Return a dict with all evaluation scores: Recall@1, Recall@5, Recall@10, MAP, NDCG@1, NDCG@5, NDCG@10"""
     recall_scores = calculate_recall(df)
     map_score = calculate_mean_average_precision(df)
     ndcg_score_1 = calculate_ndcg(df, k=1)
     ndcg_score_5 = calculate_ndcg(df, k=5)
     ndcg_score_10 = calculate_ndcg(df, k=10)
+
+    # Convert to percentage if as_pct is True
+    if as_pct:
+        recall_scores = {k: v * 100 for k, v in recall_scores.items()}
+        map_score *= 100
+        ndcg_score_1 *= 100
+        ndcg_score_5 *= 100
+        ndcg_score_10 *= 100
 
     eval_scores = {
         'recall@1': recall_scores['recall@1'],
